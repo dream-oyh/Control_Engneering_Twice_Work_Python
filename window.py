@@ -1,15 +1,12 @@
 import tkinter
 from typing import Callable, Optional, Tuple, Union
+
 import customtkinter
-from customtkinter.windows.widgets.font import CTkFont
 import matplotlib.pyplot as plt
+from customtkinter.windows.widgets.font import CTkFont
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.figure import Figure
 from PIL import Image
-
-
-def one_order_adjust():
-    print("cxx")
 
 
 class MyOrder(customtkinter.CTkFrame):
@@ -24,14 +21,14 @@ class MyOrder(customtkinter.CTkFrame):
         self.one_order_if = customtkinter.IntVar(value=0)
         self.one_order = customtkinter.CTkRadioButton(
             self,
-            command=one_order_adjust,
+            command=lambda: print(self.one_order_if.get()),
             variable=self.one_order_if,
             text="One order",
             value=1,
         )
         self.two_order = customtkinter.CTkRadioButton(
             self,
-            command=one_order_adjust,
+            command=lambda: print(self.one_order_if.get()),
             variable=self.one_order_if,
             text="Two order",
             value=0,
