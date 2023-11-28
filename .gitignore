@@ -2,3 +2,4 @@ test*.*
 example.*
 ~$*
 __pycache__
+components
