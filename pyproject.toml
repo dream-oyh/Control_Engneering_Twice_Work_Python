@@ -2,8 +2,11 @@
 name = "tkinter"
 version = "0.1.0"
 description = ""
-authors = ["dream同学0 <10135984+o19859860010@user.noreply.gitee.com>"]
-readme = "README.md"
+authors = [
+  "dream同学0 <10135984+o19859860010@user.noreply.gitee.com>",
+  "lxl66566 <lxl66566@gmail.com>",
+]
+readme = "readme.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"

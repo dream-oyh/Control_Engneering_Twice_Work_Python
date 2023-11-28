@@ -1,4 +1,3 @@
-import tkinter
 from typing import Callable, Optional, Tuple, Union
 
 import customtkinter
@@ -8,33 +7,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolb
 from matplotlib.figure import Figure
 from PIL import Image
 
-
-class MyOrder(customtkinter.CTkFrame):
-    def __init__(self, master, border_color, border_width, **kwargs):
-        super().__init__(
-            master, border_color=border_color, border_width=border_width, **kwargs
-        )
-        self.label = customtkinter.CTkLabel(self, text="Order Option")
-        self.label.grid(row=0, column=0, padx=20, pady=10)
-
-        # define one order or two orders
-        self.one_order_if = customtkinter.IntVar(value=0)
-        self.one_order = customtkinter.CTkRadioButton(
-            self,
-            command=lambda: print(self.one_order_if.get()),
-            variable=self.one_order_if,
-            text="One order",
-            value=1,
-        )
-        self.two_order = customtkinter.CTkRadioButton(
-            self,
-            command=lambda: print(self.one_order_if.get()),
-            variable=self.one_order_if,
-            text="Two order",
-            value=0,
-        )
-        self.one_order.grid(row=1, column=0, padx=20, pady=10)
-        self.two_order.grid(row=2, column=0, padx=20, pady=10)
+from components.MyOrder import MyOrder
 
 
 class MyTabView(customtkinter.CTkTabview):
@@ -164,27 +137,30 @@ class MyTabView(customtkinter.CTkTabview):
 
         # put CTkRadioButton
         # pulse
-        Pulse_order = MyOrder(Pulse_Input, border_color="black", border_width=1)
+        Pulse_order = MyOrder(
+            Pulse_Input,
+            title="Pulse_order",
+            button_name=["test1", "Test2"],
+        )
         Pulse_order.place(x=50, y=120)
         # slope
-        Slope_order = MyOrder(Slope_Input, border_color="black", border_width=1)
+        Slope_order = MyOrder(
+            Slope_Input,
+            title="Slope_order",
+            button_name=["Test1", "Test2", "Test3"],
+        )
         Slope_order.place(x=50, y=120)
         # step
-        Step_order = MyOrder(Step_Input, border_color="black", border_width=1)
+        Step_order = MyOrder(
+            Step_Input,
+            title="Step_order",
+            button_name=["Test1"],
+        )
         Step_order.place(x=50, y=120)
         # sin
-        Sin_order = MyOrder(Sin_Input, border_color="black", border_width=1)
+        Sin_order = MyOrder(
+            Sin_Input,
+            title="Sin_order",
+            button_name=["Test1", "Test2"],
+        )
         Sin_order.place(x=50, y=120)
-
-
-class App(customtkinter.CTk):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-
-        self.tab_view = MyTabView(master=self, width=1000, height=500)
-        self.tab_view.grid(row=0, column=0, padx=20, pady=20)
-
-
-app = App()
-app.title("The parameter changes impact on arbitrary order system output")
-app.mainloop()
