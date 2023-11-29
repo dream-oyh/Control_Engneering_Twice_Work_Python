@@ -1,4 +1,10 @@
-import customtkinter, Indicator, MyArgument, MyButton, MyCanvas, MyOrder, MySlider, MySliderBlock
+import customtkinter
+from components.Indicator import Indicator
+from components.MyArgument import MyArgument
+from components.MyButton import MyButton
+from components.MyCanvas import MyCanvas
+from components.MyOrder import MyOrder
+from components.MySliderBlock import MySliderBlock
 
 
 class tab_frame(customtkinter.CTkFrame):
@@ -17,8 +23,8 @@ class tab_frame(customtkinter.CTkFrame):
         self.indicator = Indicator(self, text=text, img_path=img_path)
         self.sliblo = MySliderBlock(self, text=slidertext, max=max, min=min)
         self.OptCommand = [
-            MyOrder.set_disabled_one_order(sliderblock=self.sliblo),
-            MyOrder.set_disabled_two_order(sliderblock=self.sliblo),
+            MyOrder.set_disabled_one_order(sliderblock=self.sliblo, ban=[0, 1]),
+            MyOrder.set_disabled_one_order(sliderblock=self.sliblo, ban=[2]),
         ]
         self.orderopt = MyOrder(
             self,

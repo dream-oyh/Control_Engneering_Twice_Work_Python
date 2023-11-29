@@ -1,5 +1,5 @@
 import customtkinter
-import MySliderBlock
+from components.MySliderBlock import MySliderBlock
 
 
 class MyOrder(customtkinter.CTkFrame):

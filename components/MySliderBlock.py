@@ -1,5 +1,5 @@
 import customtkinter
-import MySlider
+from components.MySlider import MySlider
 
 
 class MySliderBlock(customtkinter.CTkFrame):
