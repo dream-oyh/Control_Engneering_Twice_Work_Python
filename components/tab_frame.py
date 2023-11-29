@@ -22,15 +22,13 @@ class tab_frame(customtkinter.CTkFrame):
         # Put indicator, orderoption, sliderblock, canvas, arguments
         self.indicator = Indicator(self, text=text, img_path=img_path)
         self.sliblo = MySliderBlock(self, text=slidertext, max=max, min=min)
-        self.OptCommand = [
-            MyOrder.set_disabled_one_order(sliderblock=self.sliblo, ban=[0, 1]),
-            MyOrder.set_disabled_one_order(sliderblock=self.sliblo, ban=[2]),
-        ]
+
         self.orderopt = MyOrder(
             self,
             title="Order Option",
             button_name=["One Order System", "Two Order System"],
-            command=self.OptCommand,
+            ban=[[0, 1], [2]],
+            sliderblock=self.sliblo,
         )
 
         self.but = MyButton(self)

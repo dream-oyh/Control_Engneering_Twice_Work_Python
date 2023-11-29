@@ -2,10 +2,6 @@ from contextlib import suppress
 from typing import Callable, Optional, Tuple, Union
 
 import customtkinter
-import matplotlib.pyplot as plt
-from customtkinter.windows.widgets.font import CTkFont
-from PIL import Image
-import components as comp
 
 
 class MyTab(customtkinter.CTkTabview):

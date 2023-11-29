@@ -10,7 +10,13 @@ class MyOrder(customtkinter.CTkFrame):
     """
 
     def __init__(
-        self, master, title: str, button_name: list[str], command: list, **kwargs
+        self,
+        master,
+        title: str,
+        button_name: list[str],
+        ban: list[list[int]],
+        sliderblock: MySliderBlock,
+        **kwargs
     ):
         assert button_name, "button_name can not be empty"
 
@@ -29,7 +35,7 @@ class MyOrder(customtkinter.CTkFrame):
         self.orders = [
             customtkinter.CTkRadioButton(
                 self,
-                command=command[i],
+                command=self.set_disabled(sliderblock, ban=ban[i]),
                 variable=self.selected,
                 text=j,
                 value=i,
@@ -40,8 +46,9 @@ class MyOrder(customtkinter.CTkFrame):
             j.grid(row=i + 1, column=0, padx=5, pady=10)
 
     # For test
-    def set_disabled_one_order(sliderblock: MySliderBlock, ban: list[int]):
+    def set_disabled(sliderblock: MySliderBlock, ban: list[int]):
         # if self.orders[num]._value == num:
-        for banner in ban:
-            sliderblock.frame[banner].x_slider.configure(state="disabled")
-            sliderblock.frame[banner].x_entry.configure(state="disabled")
+        for i in ban:
+            sliderblock.frame[i].x_slider.configure(state="disabled")
+            sliderblock.frame[i].x_entry.configure(state="disabled")
+        print("click success")
