@@ -51,49 +51,6 @@ class MyCanvas(customtkinter.CTkFrame):
         self.toolbar.grid(row=1, column=0, padx=20, pady=20)
 
 
-class MyOrder(customtkinter.CTkFrame):
-    """
-    具有多个 RadioButton 的组件
-    :param title: 组件标签
-    :param button_name: 按钮的名字列表，决定了按钮的数量
-    """
-
-    def __init__(
-        self,
-        master,
-        title: str,
-        button_name: list[str],
-        command: list[function],
-        **kwargs
-    ):
-        assert button_name, "button_name can not be empty"
-
-        # border_color 与 border_width 具有默认值，且通过 kwargs 传参
-        kwargs = {
-            "border_color": "black",
-            "border_width": 1,
-            **kwargs,
-        }
-        super().__init__(master, **kwargs)
-        self.label = customtkinter.CTkLabel(self, text=title)
-        self.label.grid(row=0, column=0, padx=20, pady=10)
-
-        # define one order or two orders
-        self.selected = customtkinter.IntVar(value=0)
-        self.orders = [
-            customtkinter.CTkRadioButton(
-                self,
-                command=command[i],
-                variable=self.selected,
-                text=j,
-                value=i,
-            )
-            for i, j in enumerate(button_name)
-        ]
-        for i, j in enumerate(self.orders):
-            j.grid(row=i + 1, column=0, padx=5, pady=10)
-
-
 class MyPlotNavigation(customtkinter.CTkFrame):
     def __init__(self, master: any, canvas, height=250, width=30, **kwargs):
         kwargs = {"fg_color": master._fg_color}
@@ -142,25 +99,56 @@ class MySliderBlock(customtkinter.CTkFrame):
         """
         assert text.__len__() == max.__len__(), "text have not same size with max"
         assert max.__len__() == min.__len__(), "max have not same size with min"
-        # self.parameter = []
-        # for i in range(text.__len__()):
-        #     self.parameter = [self.parameter, [text[i], max[i], min[i]]]
-        #     print(j for i, j in enumerate(self.parameter))
-        #     self.frame = [
-        #         MySlider(
-        #             self,
-        #             text=j[0],
-        #             max=j[1],
-        #             min=j[2],
-        #         )
-        #         for i, j in enumerate(self.parameter)
-        #     ]
         self.frame = [
             MySlider(self, text=text[i], max=max[i], min=min[i])
             for i in range(text.__len__())
         ]
         for i, j in enumerate(self.frame):
             j.grid(row=i + 1, column=0, padx=20, pady=5, sticky="e")
+
+
+class MyOrder(customtkinter.CTkFrame):
+    """
+    具有多个 RadioButton 的组件
+    :param title: 组件标签
+    :param button_name: 按钮的名字列表，决定了按钮的数量
+    """
+
+    def __init__(
+        self, master, title: str, button_name: list[str], command: list, **kwargs
+    ):
+        assert button_name, "button_name can not be empty"
+
+        # border_color 与 border_width 具有默认值，且通过 kwargs 传参
+        kwargs = {
+            "border_color": "black",
+            "border_width": 1,
+            **kwargs,
+        }
+        super().__init__(master, **kwargs)
+        self.label = customtkinter.CTkLabel(self, text=title)
+        self.label.grid(row=0, column=0, padx=20, pady=10)
+
+        # define one order or two orders
+        self.selected = customtkinter.IntVar(value=0)
+        self.orders = [
+            customtkinter.CTkRadioButton(
+                self,
+                command=command[i],
+                variable=self.selected,
+                text=j,
+                value=i,
+            )
+            for i, j in enumerate(button_name)
+        ]
+        for i, j in enumerate(self.orders):
+            j.grid(row=i + 1, column=0, padx=5, pady=10)
+
+    def set_disabled_one_order(sliderblock: MySliderBlock, ban: list[int]):
+        # if self.orders[num]._value == num:
+        for banner in ban:
+            sliderblock.frame[banner].x_slider.configure(state="disabled")
+            sliderblock.frame[banner].x_entry.configure(state="disabled")
 
 
 class tab_frame(customtkinter.CTkFrame):
@@ -177,13 +165,18 @@ class tab_frame(customtkinter.CTkFrame):
         super().__init__(master, **kwargs)
         # Put indicator, orderoption, sliderblock, canvas, arguments
         self.indicator = Indicator(self, text=text, img_path=img_path)
-
+        self.sliblo = MySliderBlock(self, text=slidertext, max=max, min=min)
+        self.OptCommand = [
+            MyOrder.set_disabled_one_order(sliderblock=self.sliblo),
+            MyOrder.set_disabled_two_order(sliderblock=self.sliblo),
+        ]
         self.orderopt = MyOrder(
             self,
             title="Order Option",
             button_name=["One Order System", "Two Order System"],
+            command=self.OptCommand,
         )
-        self.sliblo = MySliderBlock(self, text=slidertext, max=max, min=min)
+
         self.but = MyButton(self)
         self.can = MyCanvas(self)
         self.text = MyArgument(self)
