@@ -1,6 +1,5 @@
 import customtkinter
 
-from window import MyTabView
 from TabView import MyTab
 
 
@@ -14,4 +13,5 @@ class App(customtkinter.CTk):
 
 app = App()
 app.title("The parameter changes impact on arbitrary order system output")
+app.geometry("1100x750+100+50")
 app.mainloop()

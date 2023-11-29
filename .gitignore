@@ -1,5 +1,5 @@
 test*.*
+temp*.*
 example.*
 ~$*
 __pycache__
-components
