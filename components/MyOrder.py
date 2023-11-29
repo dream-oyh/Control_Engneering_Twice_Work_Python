@@ -1,4 +1,7 @@
+import logging
+
 import customtkinter
+
 from components.MySliderBlock import MySliderBlock
 
 
@@ -16,7 +19,7 @@ class MyOrder(customtkinter.CTkFrame):
         button_name: list[str],
         ban: list[list[int]],
         sliderblock: MySliderBlock,
-        **kwargs
+        **kwargs,
     ):
         assert button_name, "button_name can not be empty"
 
@@ -35,7 +38,7 @@ class MyOrder(customtkinter.CTkFrame):
         self.orders = [
             customtkinter.CTkRadioButton(
                 self,
-                command=self.set_disabled(sliderblock, ban=ban[i]),
+                command=self.callback,
                 variable=self.selected,
                 text=j,
                 value=i,
@@ -45,10 +48,13 @@ class MyOrder(customtkinter.CTkFrame):
         for i, j in enumerate(self.orders):
             j.grid(row=i + 1, column=0, padx=5, pady=10)
 
-    # For test
-    def set_disabled(sliderblock: MySliderBlock, ban: list[int]):
-        # if self.orders[num]._value == num:
-        for i in ban:
-            sliderblock.frame[i].x_slider.configure(state="disabled")
-            sliderblock.frame[i].x_entry.configure(state="disabled")
-        print("click success")
+        self.callback()  # 在界面开启时立即执行一次 callback，将 slider 禁用
+
+    # 回调函数，禁用滑条与输入框
+    def callback(self):
+        logging.info("callback triggered， status:%d", self.selected.get())
+        match self.selected.get():
+            case 0:
+                self.master.slider_block.set_enabled([False, False, True])
+            case _:
+                self.master.slider_block.set_enabled([True, True, False])

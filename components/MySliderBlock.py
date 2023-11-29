@@ -1,8 +1,13 @@
 import customtkinter
+
 from components.MySlider import MySlider
 
 
 class MySliderBlock(customtkinter.CTkFrame):
+    """
+    多个 slider 组成的 slider block
+    """
+
     def __init__(
         self,
         master: any,
@@ -18,11 +23,14 @@ class MySliderBlock(customtkinter.CTkFrame):
         max: 各物理量所需滑条最大值
         min: 各物理量所需滑条最小值
         """
-        assert text.__len__() == max.__len__(), "text have not same size with max"
-        assert max.__len__() == min.__len__(), "max have not same size with min"
-        self.frame = [
-            MySlider(self, text=text[i], max=max[i], min=min[i])
-            for i in range(text.__len__())
-        ]
+        assert len(text) == len(max) and len(text) == len(
+            min
+        ), "arguments must have same length"
+        self.frame = [MySlider(self, *i) for i in zip(text, max, min)]
         for i, j in enumerate(self.frame):
             j.grid(row=i + 1, column=0, padx=20, pady=5, sticky="e")
+
+    def set_enabled(self, enabled: list[bool]):
+        assert len(enabled) == len(self.frame), "arguments must have same length"
+        for i, j in enumerate(self.frame):
+            j.set_enabled(enabled[i])

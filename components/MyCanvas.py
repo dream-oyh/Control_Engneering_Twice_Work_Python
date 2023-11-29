@@ -1,13 +1,11 @@
 import customtkinter
-
-
-from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
+from matplotlib.figure import Figure
 
 
 class MyPlotNavigation(customtkinter.CTkFrame):
     def __init__(self, master: any, canvas, height=250, width=30, **kwargs):
-        kwargs = {"fg_color": master._fg_color}
+        kwargs = {"fg_color": master._fg_color, **kwargs}
         super().__init__(master, height, width, **kwargs)
         self.toolbar = NavigationToolbar2Tk(canvas, self)
         self.toolbar.place(x=190, y=20, anchor=customtkinter.CENTER)

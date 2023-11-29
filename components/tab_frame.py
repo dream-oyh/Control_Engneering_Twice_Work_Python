@@ -1,10 +1,11 @@
 import customtkinter
-from components.Indicator import Indicator
-from components.MyArgument import MyArgument
-from components.MyButton import MyButton
-from components.MyCanvas import MyCanvas
-from components.MyOrder import MyOrder
-from components.MySliderBlock import MySliderBlock
+
+from .Indicator import Indicator
+from .MyArgument import MyArgument
+from .MyButton import MyButton
+from .MyCanvas import MyCanvas
+from .MyOrder import MyOrder
+from .MySliderBlock import MySliderBlock
 
 
 class tab_frame(customtkinter.CTkFrame):
@@ -18,26 +19,27 @@ class tab_frame(customtkinter.CTkFrame):
         img_path: str,
         **kwargs
     ):
+        assert len(max) == len(min), "arguments max and min must have same length"
         super().__init__(master, **kwargs)
         # Put indicator, orderoption, sliderblock, canvas, arguments
         self.indicator = Indicator(self, text=text, img_path=img_path)
-        self.sliblo = MySliderBlock(self, text=slidertext, max=max, min=min)
+        self.slider_block = MySliderBlock(self, text=slidertext, max=max, min=min)
 
-        self.orderopt = MyOrder(
+        self.order_panel = MyOrder(
             self,
             title="Order Option",
             button_name=["One Order System", "Two Order System"],
             ban=[[0, 1], [2]],
-            sliderblock=self.sliblo,
+            sliderblock=self.slider_block,
         )
 
-        self.but = MyButton(self)
-        self.can = MyCanvas(self)
-        self.text = MyArgument(self)
+        self.button = MyButton(self)
+        self.canvas = MyCanvas(self)
+        self.argument = MyArgument(self, text="this is a test")
 
         self.indicator.grid(row=0, column=0, padx=10, pady=10, sticky="w")
-        self.orderopt.grid(row=0, column=1, padx=10, pady=10, sticky="w")
-        self.sliblo.grid(row=1, column=0, padx=10, pady=10, columnspan=2)
-        self.but.grid(row=2, column=0, padx=10, pady=10, columnspan=2)
-        self.can.grid(row=0, column=3, padx=10, pady=10, rowspan=2)
-        self.text.grid(row=2, column=3, padx=10, pady=10)
+        self.order_panel.grid(row=0, column=1, padx=10, pady=10, sticky="w")
+        self.slider_block.grid(row=1, column=0, padx=10, pady=10, columnspan=2)
+        self.button.grid(row=2, column=0, padx=10, pady=10, columnspan=2)
+        self.canvas.grid(row=0, column=3, padx=10, pady=10, rowspan=2)
+        self.argument.grid(row=2, column=3, padx=10, pady=10)
