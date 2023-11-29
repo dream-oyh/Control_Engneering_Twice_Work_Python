@@ -15,8 +15,8 @@ class MyCanvas(customtkinter.CTkFrame):
     def __init__(self, master: any, **kwargs):
         super().__init__(master, **kwargs)
         self.f = Figure(figsize=(6, 6), dpi=100)
-        plot = self.f.add_subplot(111)
-        plot.grid()
+        self.plot = self.f.add_subplot(111)
+        self.plot.grid()
 
         self.Canvas = FigureCanvasTkAgg(self.f, self)
         self.Canvas.get_tk_widget().grid(row=0, column=0, padx=20, pady=20)
