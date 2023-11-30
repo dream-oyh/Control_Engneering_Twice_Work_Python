@@ -1,5 +1,6 @@
 import customtkinter
-from core import one_order
+from core import Sin_one_order
+from draw import draw_slider
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -38,7 +39,20 @@ class MySlider(customtkinter.CTkFrame):
     # button_color="#94acb9",
     # text_color="#b0b6b9",
 
-    def draw_canvas(self, T, v):
+    def draw_canvas(self, v, T, w, c):
+        # T = self.master.slider_block.frame[2].x.get()
+
+        global legend_on
+        f_plot = self.master.master.canvas.plot
+        Switch = self.master.master.button.button[2].get()
+        canvas = self.master.master.canvas.Canvas
+        # slider_block = self.master.master.slider_block
+        status = self.master.master.order_panel.selected.get()
+
+        self.master.master.canvas.f.figure
+        draw_slider(Switch, canvas, f_plot, status, v, T, w, c)
+
+    def sin_draw_canvas(self, T, omega):
         # T = self.master.slider_block.frame[2].x.get()
 
         global legend_on
@@ -46,15 +60,15 @@ class MySlider(customtkinter.CTkFrame):
         self.master.master.canvas.f.figure
         if self.master.master.button.button[2].get() == 0:
             f_plot.clear()
-        o_np = one_order(v, T)
+        o_np = Sin_one_order(omega, T)
         x = np.linspace(0, 10, 100)
         f_plot.plot(x, o_np(x))
-        if self.master.master.button.button[2].get() == 1:  # 需要hold on，需要比较不同T值的曲线
-            legend_on.append("v=%s,T=%s" % (str(v), str(format(T, ".2f"))))
-            f_plot.legend(legend_on)
-        if self.master.master.button.button[2].get() == 0:
-            legend_on = ["v=%s,T=%s" % (str(v), str(format(T, ".2f")))]
-            f_plot.legend(legend_on)
+        # if self.master.master.button.button[2].get() == 1:  # 需要hold on，需要比较不同Omega值的曲线
+        #     legend_on.append("omega=%s,T=%s" % (str(omega), str(format(T, ".2f"))))
+        #     f_plot.legend(legend_on)
+        # if self.master.master.button.button[2].get() == 0:
+        legend_on = ["omega=%s,T=%s" % (str(omega), str(format(T, ".2f")))]
+        f_plot.legend(legend_on)
         # legend_pulse.append("v=%s,T=%s" % (str(v), str(T)))
         self.master.master.canvas.Canvas.draw()
 
@@ -62,21 +76,31 @@ class MySlider(customtkinter.CTkFrame):
         self.x.set(format(value, ".2f"))
         # # f_plot = self.master.master.canvas.plot
         tab_name = self.master.master.master.master
-        switch_val = self.master.master.button.button[2]
+        switch_val = self.master.master.button.button[2].get()
         for i, j in enumerate(["Pulse Input", "Step Input", "Slope Input"]):
-            if tab_name.get() == j and switch_val.get() == 0:
-                self.draw_canvas(T=value, v=i)
-        # f_plot = self.master.master.canvas.plot
-        # f_plot.clear()
-        # v = 0
-        # # T = self.master.slider_block.frame[2].x.get()
-        # T = value
-        # self.master.master.canvas.f.figure
+            if tab_name.get() == j:
+                if self.label._text == "w":
+                    c = self.master.frame[1].x.get()
+                    self.draw_canvas(v=i, w=value, c=c, T=0.01)
+                if self.label._text == "阻尼度":
+                    w = self.master.frame[0].x.get()
+                    self.draw_canvas(v=i, w=w, c=value, T=0.01)
+                if self.label._text == "T":
+                    T = self.master.frame[2].x.get()
+                    self.draw_canvas(v=i, T=T, w=0.01, c=0.01)
+                    # self.draw_canvas(v=i, T=value, w=0.01, c=0.01)
 
-        # o_np = one_order(v, T)
-        # x = np.linspace(0, 10, 100)
-        # f_plot.plot(x, o_np(x))
-        # # legend_pulse.append("v=%s,T=%s" % (str(v), str(T)))
-        # legend_pulse = ["v=%s,T=%s" % (str(v), str(format(T, ".2f")))]
-        # f_plot.legend(legend_pulse)
-        # self.master.master.canvas.Canvas.draw()
+        if (
+            tab_name.get() == "Sin Input"
+            and switch_val == 0
+            and self.label._text == "固有频率"
+        ):
+            T = self.master.frame[2].x.get()
+            self.sin_draw_canvas(omega=value, T=T)
+        if (
+            tab_name.get() == "Sin Input"
+            and switch_val == 0
+            and self.label._text == "T"
+        ):
+            omega = self.master.frame[3].x.get()
+            self.sin_draw_canvas(omega=omega, T=value)

@@ -22,6 +22,14 @@ def Sin_one_order(omega: float, T):
     return out_np
 
 
+def two_order(v, w, c):
+    fun_input = 1 / s**v
+    G = w / (s**2 + 2 * c * w * s + w**2)
+    out = inverse_laplace_transform(fun_input * G, s, t)
+    out_np = lambdify(t, out, "numpy")
+    return out_np
+
+
 # a = Figure(figsize=(6.4, 6.4), dpi=100)
 # v1 = 0
 # v2 = 1
