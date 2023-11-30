@@ -3,8 +3,8 @@ from core import one_order
 import matplotlib.pyplot as plt
 import numpy as np
 
-global legend_pulse
-legend_pulse = []
+global legend_on
+legend_on = []
 
 
 class MySlider(customtkinter.CTkFrame):
@@ -31,21 +31,52 @@ class MySlider(customtkinter.CTkFrame):
 
     def set_enabled(self, state: bool):
         self.x_slider.configure(state="normal" if state else "disabled")
+        self.x_slider.configure(button_color="#3B8ED0" if state else "#94acb9")
         self.x_entry.configure(state="normal" if state else "disabled")
+        self.x_entry.configure(text_color="#000000" if state else "#94acb9")
+
+    # button_color="#94acb9",
+    # text_color="#b0b6b9",
+
+    def draw_canvas(self, T, v):
+        # T = self.master.slider_block.frame[2].x.get()
+
+        global legend_on
+        f_plot = self.master.master.canvas.plot
+        self.master.master.canvas.f.figure
+        if self.master.master.button.button[2].get() == 0:
+            f_plot.clear()
+        o_np = one_order(v, T)
+        x = np.linspace(0, 10, 100)
+        f_plot.plot(x, o_np(x))
+        if self.master.master.button.button[2].get() == 1:  # 需要hold on，需要比较不同T值的曲线
+            legend_on.append("v=%s,T=%s" % (str(v), str(format(T, ".2f"))))
+            f_plot.legend(legend_on)
+        if self.master.master.button.button[2].get() == 0:
+            legend_on = ["v=%s,T=%s" % (str(v), str(format(T, ".2f")))]
+            f_plot.legend(legend_on)
+        # legend_pulse.append("v=%s,T=%s" % (str(v), str(T)))
+        self.master.master.canvas.Canvas.draw()
 
     def caculate(self, value):
         self.x.set(format(value, ".2f"))
-        f_plot = self.master.master.canvas.plot
-        f_plot.clear()
-        if self.master.master.master.master.get() == "Pulse Input":
-            v = 0
-            # T = self.master.slider_block.frame[2].x.get()
-            T = value
-            self.master.master.canvas.f.figure
+        # # f_plot = self.master.master.canvas.plot
+        tab_name = self.master.master.master.master
+        switch_val = self.master.master.button.button[2]
+        for i, j in enumerate(["Pulse Input", "Step Input", "Slope Input"]):
+            if tab_name.get() == j and switch_val.get() == 0:
+                self.draw_canvas(T=value, v=i)
+        # f_plot = self.master.master.canvas.plot
+        # f_plot.clear()
+        # v = 0
+        # # T = self.master.slider_block.frame[2].x.get()
+        # T = value
+        # self.master.master.canvas.f.figure
 
-            o_np = one_order(v, T)
-            x = np.linspace(0, 10, 100)
-            f_plot.plot(x, o_np(x))
-            legend_pulse.append("v=%s,T=%s" % (str(v), str(T)))
-            f_plot.legend(legend_pulse)
-            self.master.master.canvas.Canvas.draw()
+        # o_np = one_order(v, T)
+        # x = np.linspace(0, 10, 100)
+        # f_plot.plot(x, o_np(x))
+        # # legend_pulse.append("v=%s,T=%s" % (str(v), str(T)))
+        # legend_pulse = ["v=%s,T=%s" % (str(v), str(format(T, ".2f")))]
+        # f_plot.legend(legend_pulse)
+        # self.master.master.canvas.Canvas.draw()

@@ -18,7 +18,7 @@ class MyTab(customtkinter.CTkTabview):
         frame_args = {
             "slidertext": ["w", "阻尼度", "T"],
             "max": [10, 2, 10],
-            "min": [0, 0, 0],
+            "min": [0.01, 0.01, 0.01],
         }
         self.frames = [
             tab_frame(
