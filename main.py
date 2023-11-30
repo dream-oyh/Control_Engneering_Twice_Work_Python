@@ -13,7 +13,6 @@ class App(customtkinter.CTk):
         self.tab_view.grid(row=0, column=0, padx=20, pady=20)
 
 
-logging.basicConfig(level=logging.INFO)
 app = App()
 app.title("The parameter changes impact on arbitrary order system output")
 app.geometry("1100x750+100+50")
