@@ -1,7 +1,7 @@
 import customtkinter
 
 from .Indicator import Indicator
-from .MyArgument import MyArgument
+from .metric import metric
 from .MyButton import MyButton
 from .MyCanvas import MyCanvas
 from .MyOrder import MyOrder
@@ -35,11 +35,10 @@ class tab_frame(customtkinter.CTkFrame):
 
         self.button = MyButton(self)
         self.canvas = MyCanvas(self)
-        self.argument = MyArgument(self, text="this is a test")
-
+        self.metric = metric(self, text=["超调量", "上升时间", "峰值时间", "调整时间"])
         self.indicator.grid(row=0, column=0, padx=10, pady=10, sticky="w")
         self.order_panel.grid(row=0, column=1, padx=10, pady=10, sticky="w")
-        self.slider_block.grid(row=1, column=0, padx=10, pady=10, columnspan=2)
-        self.button.grid(row=2, column=0, padx=10, pady=10, columnspan=2)
-        self.canvas.grid(row=0, column=3, padx=10, pady=10, rowspan=2)
-        self.argument.grid(row=2, column=3, padx=10, pady=10)
+        self.slider_block.grid(row=1, column=0, padx=10, pady=10, columnspan=3)
+        self.button.grid(row=2, column=0, padx=10, pady=10, columnspan=3)
+        self.canvas.grid(row=0, column=4, padx=10, pady=10, rowspan=3)
+        self.metric.grid(row=0, column=2, padx=10, pady=10, sticky="w")

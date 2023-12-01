@@ -18,6 +18,7 @@ tushare = "^1.2.89"
 scipy = "^1.11.4"
 image = "^1.5.33"
 sympy = "^1.12"
+darkdetect = "^0.8.0"
 
 [build-system]
 requires = ["poetry-core"]

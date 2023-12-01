@@ -30,6 +30,14 @@ def two_order(v, w, c):
     return out_np
 
 
+def Sin_two_order(omega: float, w, c):
+    sin_input = omega / (s**2 + omega**2)
+    G = w / (s**2 + 2 * c * w * s + w**2)
+    out = inverse_laplace_transform(sin_input * G, s, t)
+    out_np = lambdify(t, out, "numpy")
+    return out_np
+
+
 # a = Figure(figsize=(6.4, 6.4), dpi=100)
 # v1 = 0
 # v2 = 1

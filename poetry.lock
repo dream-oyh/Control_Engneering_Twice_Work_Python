@@ -1346,4 +1346,4 @@ reference = "tsinghua-pypi"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "00bdf61641eb84794c30724f1bf1f5eeecb59aeb230c54bcb978478331d8fc7a"
+content-hash = "82742c317090ebb09dc6b451cc16af3d02d39b2749028ca977750ff51c41ce09"

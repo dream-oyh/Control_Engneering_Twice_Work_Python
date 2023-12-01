@@ -21,11 +21,12 @@ def draw(canvas, f_plot, slider_block, status, v):
     x = np.linspace(0, 10, 100)
     f_plot.plot(x, o_np(x))
     if status == 0:
-        legend_on.append("v=%s,T=%s" % (str(v), str(T)))
+        legend_on.append("T=%s" % (str(T)))
     if status == 1:
-        legend_on.append("v = %s,w=%s,ksai=%s" % (str(v), str(w), str(c)))
+        legend_on.append("w=%s,ksai=%s" % (str(w), str(c)))
     f_plot.legend(legend_on)
     canvas.draw()
+    return x, o_np(x)
 
 
 def draw_slider(Switch, canvas, f_plot, status, v, T, w, c):
@@ -33,18 +34,19 @@ def draw_slider(Switch, canvas, f_plot, status, v, T, w, c):
         o_np = one_order(v, T)
     if status == 1:
         o_np = two_order(v, w, c)
+    x = np.linspace(0, 10, 100)
     if Switch == 0:
         f_plot.clear()
-        x = np.linspace(0, 10, 100)
+
         f_plot.plot(x, o_np(x))
 
         if status == 0:  # 不需要hold on 也一阶
-            legend_on = ["v=%s,T=%s" % (str(v), str(format(T, ".2f")))]
+            legend_on = ["T=%s" % (str(format(T, ".2f")))]
             f_plot.legend(legend_on)
         if status == 1:  # 不需要hold—on 但是二阶
             legend_on = [
-                "v = %s,w=%s,ksai=%s"
-                % (str(v), str(format(w, ".2f")), str(format(c, ".2f")))
+                "w=%s,ksai=%s" % (str(format(w, ".2f")), str(format(c, ".2f")))
             ]
             f_plot.legend(legend_on)
-        canvas.draw()
+    canvas.draw()
+    return x, o_np(x)

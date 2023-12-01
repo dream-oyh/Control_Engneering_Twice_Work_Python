@@ -13,8 +13,8 @@ class MyTab(customtkinter.CTkTabview):
 
         super().__init__(master, **kwargs)
         self.Pulse = self.add("Pulse Input")
-        self.Slope = self.add("Slope Input")
         self.Step = self.add("Step Input")
+        self.Slope = self.add("Slope Input")
         self.Sin = self.add("Sin Input")
         frame_args = {
             "slidertext": ["w", "阻尼度", "T"],
