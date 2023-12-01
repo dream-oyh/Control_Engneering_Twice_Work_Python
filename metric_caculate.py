@@ -21,8 +21,16 @@ def ts(x: np.ndarray, o_np):
     return x[i]
 
 
+def ts_step(T):
+    return 4 * T
+
+
 def update(metric: metric, x, o_np):
     metric.metric_val[0].configure(text=str(format(chaotiao(o_np), ".2f")))
     metric.metric_val[1].configure(text=str(format(tr(x, o_np), ".2f")))
     metric.metric_val[2].configure(text=str(format(tp(x, o_np), ".2f")))
-    metric.metric_val[3].configure(text=str(format(ts(x, o_np), ".2f")))
+    if metric.master.master.master.get() == "Step Input":
+        T = metric.master.slider_block.frame[2].x.get()
+        metric.metric_val[3].configure(text=str(format(4 * T, ".2f")))
+    else:
+        metric.metric_val[3].configure(text=str(format(ts(x, o_np), ".2f")))
